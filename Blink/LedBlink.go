@@ -15,15 +15,19 @@ func main() {
 
 	edisonAdaptor := edison.NewEdisonAdaptor("edison")
 	//sensor := gpio.NewAnalogSensorDriver(edisonAdaptor, "sensor", "0")
-	led := gpio.NewLedDriver(edisonAdaptor, "led", "13")
+	led1 := gpio.NewLedDriver(edisonAdaptor, "led", "13")
+	led2 := gpio.NewLedDriver(edisonAdaptor, "led", "12")
 
 	work := func() {
 		for {
-			led.On()
-			led.Brightness(1)
-			time.Sleep(time.Second * 2)
-			led.Off()
-			time.Sleep(time.Second * 2)
+			led1.On()
+			led2.On()
+			led1.Brightness(1)
+			led2.Brightness(1)
+			time.Sleep(time.Second * 1)
+			led1.Off()
+			led2.Off()
+			time.Sleep(time.Second * 1)
 			fmt.Println("blink")
 		}
 		// 	gbot.On(sensor.Event("data"), func(data interface{}) {
@@ -38,7 +42,7 @@ func main() {
 
 	robot := gobot.NewRobot("sensorBot",
 		[]gobot.Connection{edisonAdaptor},
-		[]gobot.Device{led},
+		[]gobot.Device{led1, led2},
 		work,
 	)
 
